@@ -1,0 +1,60 @@
+/* Interface */
+#define function updateHorseNumber(uint256) nonpayable returns()
+#define function readNumberOfHorses() view returns(uint256)
+
+// Simple Storage - Huff offers this abstraction to offer a counter to know which storage slots are open
+#define constant NUMBER_OF_HORSES_STORAGE_SLOT = FREE_STORAGE_POINTER() // assigns to slot=0
+
+#define macro MAIN() = takes(0) returns(0) {
+    0x00 calldataload 0xE0 shr              // [function_selector]
+    // updateNumberOfHorses
+    dup1 __FUNC_SIG(updateHorseNumber) eq updateJump jumpi     // [function_selector]
+    
+    // readNumberOfHorses
+    __FUNC_SIG(readNumberOfHorses) eq readJump jumpi            // []   
+
+    0x00 0x00 revert 
+
+    updateJump:
+        SET_NUMBER_OF_HORSES()
+    readJump:
+        GET_NUMBER_OF_HORSES()
+}
+
+#define macro SET_NUMBER_OF_HORSES() = takes(0) returns(0){
+    // to set our number of horses, we have to do a few things:
+    //      1. get the value to store (from calldata)
+    //      2. give it a storage slot
+    //      3. sstore opcode
+
+    // top of the stack will tell you where to put it
+    // [what-to-store, location-to-store-it]
+
+    0x04                                    // [4]
+    calldataload                            // [value] .... calldata minus function_selector
+    [NUMBER_OF_HORSES_STORAGE_SLOT]         // [ptr, value] ... storage slot ... 0x00 ... where we are storing our data
+    sstore
+    stop 
+    //costs 0 gas to stop
+    //if you don't call stop here, the code will continue to execute
+}
+
+// in order to return some value to the user, we have to first load it into memory
+#define macro GET_NUMBER_OF_HORSES() = takes(0) returns(0){
+    // 1. get the storage slot
+    // 2. load the value of that slot into memory
+    // 3. return
+
+    [NUMBER_OF_HORSES_STORAGE_SLOT]         // [key]
+    sload                                   // [value]
+    0x00                                    // [0, value] Nothing in memory yet, we can stick this at the 0 index/offset
+    mstore                                  // []
+
+    // Memory: [value]
+    // ^^^ value is now at 0x00 of Memory
+
+    0x20 // the size; 32 bytes getting returned
+    0x00 // its location in memory
+    return
+
+}
