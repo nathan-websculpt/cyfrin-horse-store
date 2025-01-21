@@ -11,7 +11,7 @@
     dup1 __FUNC_SIG(updateHorseNumber) eq updateJump jumpi     // [function_selector]
     
     // readNumberOfHorses
-    dup1 __FUNC_SIG(readNumberOfHorses) eq readJump jumpi            // []   
+    __FUNC_SIG(readNumberOfHorses) eq readJump jumpi            // []   
 
     0x00 0x00 revert 
 
