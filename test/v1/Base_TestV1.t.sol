@@ -14,6 +14,12 @@ abstract contract Base_TestV1 is Test {
         horseStore = new HorseStore();
     }
 
+    //by taking a fuzzing parameter as input, we can run fuzz tests
+    function testWriteValue(uint256 numberOfHorses) public {
+        horseStore.updateHorseNumber(numberOfHorses);
+        assertEq(horseStore.readNumberOfHorses(), numberOfHorses);
+    }
+
     function testReadValue() public view {
         uint256 initialValue = horseStore.readNumberOfHorses();
         assertEq(initialValue, 0);
