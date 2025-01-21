@@ -12,4 +12,3 @@ contract HorseStore {
         return numberOfHorses;
     }
 }
-
