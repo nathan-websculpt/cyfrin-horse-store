@@ -5,9 +5,13 @@
 // NOTES: 
 // 0x6080604052 is the Contract Creation Code
 
+// Contract Creation Code
+// Free Memory Pointer
 PUSH1 0x80
 PUSH1 0x40
 MSTORE
+
+
 CALLVALUE
 DUP1
 ISZERO
@@ -16,6 +20,8 @@ JUMPI
 PUSH0
 PUSH0
 REVERT
+
+// Jump dest if msg.value == 0
 JUMPDEST
 POP
 PUSH2 0x0129
@@ -26,6 +32,9 @@ CODECOPY
 PUSH0
 RETURN
 INVALID
+// ^^^ signals end of Contract Creation section of bytecode
+
+
 PUSH1 0x80
 PUSH1 0x40
 MSTORE
@@ -37,6 +46,8 @@ JUMPI
 PUSH0
 PUSH0
 REVERT
+
+
 JUMPDEST
 POP
 PUSH1 0x04
