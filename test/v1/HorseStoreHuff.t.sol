@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity 0.8.28;
 
-import {Base_TestV1, HorseStore} from "./Base_TestV1.t.sol";
+import {Base_TestV1, IHorseStore} from "./Base_TestV1.t.sol";
 import {HuffDeployer} from "foundry-huff/HuffDeployer.sol";
 //^^^ you will need the following in your foundry.toml file for this to work:
 //              ffi = true
@@ -15,6 +15,6 @@ contract HorseStoreHuff is Base_TestV1 {
         //huff edition
         //this way both huff and sol tests can run at once
         super.setUp();
-        HorseStore horseStore = HorseStore(HuffDeployer.config().deploy(HORSE_STORE_HUFF_LOCATION));
+        IHorseStore horseStore = IHorseStore(HuffDeployer.config().deploy(HORSE_STORE_HUFF_LOCATION));
     }
 }

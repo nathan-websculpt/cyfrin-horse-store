@@ -3,15 +3,16 @@
 pragma solidity 0.8.28;
 
 import {HorseStore} from "../../src/horseStoreV1/HorseStore.sol";
+import {IHorseStore} from "../../src/horseStoreV1/IHorseStore.sol";
 import {Test, console2} from "forge-std/Test.sol";
 
 // Base Test will run all tests on both Huff and Sol contracts
 
 abstract contract Base_TestV1 is Test {
-    HorseStore public horseStore;
+    IHorseStore public horseStore;
 
     function setUp() public virtual {
-        horseStore = new HorseStore();
+        horseStore = IHorseStore(address(new HorseStore()));
     }
 
     //by taking a fuzzing parameter as input, we can run fuzz tests
