@@ -14,7 +14,6 @@ contract HorseStoreHuff is Base_TestV1 {
     function setUp() public override {
         //huff edition
         //this way both huff and sol tests can run at once
-        super.setUp();
-        IHorseStore horseStore = IHorseStore(HuffDeployer.config().deploy(HORSE_STORE_HUFF_LOCATION));
+        horseStore = IHorseStore(HuffDeployer.config().deploy(HORSE_STORE_HUFF_LOCATION));
     }
 }
